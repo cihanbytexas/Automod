@@ -1,21 +1,19 @@
 import fetch from "node-fetch";
-import fs from "fs";
-import dotenv from "dotenv";
+import turkceKufurler from "../data/küfürler.json" assert { type: "json" };
 
-dotenv.config();
-
-// ES Module uyumlu küfür listesi yükleme
-const KUFURLER = JSON.parse(
-  fs.readFileSync(new URL('../data/küfürler.json', import.meta.url), "utf8")
-);
+export const config = { runtime: "edge" };
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Only POST allowed" });
+export default async function handler(req) {
+  if (req.method !== "POST") return new Response(JSON.stringify({ error: "Only POST allowed" }), { status: 405 });
 
-  const { guildId } = req.body;
-  if (!guildId) return res.status(400).json({ error: "guildId is required in POST body" });
+  const { searchParams } = new URL(req.url);
+  const guildId = searchParams.get("guildId");
+
+  if (!guildId) {
+    return new Response(JSON.stringify({ error: "guildId parametresi gerekli" }), { status: 400 });
+  }
 
   const API = `https://discord.com/api/v10/guilds/${guildId}/auto-moderation/rules`;
 
@@ -32,7 +30,7 @@ export default async function handler(req, res) {
 
       // Eğer kural keyword_filter içeriyorsa küfür listemizi ekle
       if (rule.trigger_type === 1) { // 1 = Keyword
-        body.trigger_metadata = { keyword_filter: KUFURLER };
+        body.trigger_metadata = { keyword_filter: turkceKufurler };
       }
 
       await fetch(`${API}/${rule.id}`, {
@@ -45,9 +43,15 @@ export default async function handler(req, res) {
       });
     }
 
-    res.status(200).json({ message: `Tüm AutoMod kuralları açıldı ve güncellendi (${rules.length} kural)` });
+    return new Response(JSON.stringify({ message: `Tüm AutoMod kuralları açıldı ve güncellendi (${rules.length} kural)` }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Bir hata oluştu", details: err.message });
+    return new Response(JSON.stringify({ error: "Bir hata oluştu", details: err.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
   }
-}
+}A
