@@ -1,25 +1,12 @@
 {
   "name": "discord-automod-api",
   "version": "1.0.0",
-  "description": "Vercel üzerinde Discord Automod API - Türkçe küfür filtresi + tüm kurallar",
-  "main": "api/addAllAutomodWithJson.js",
   "scripts": {
-    "dev": "vercel dev",
-    "start": "node api/addAllAutomodWithJson.js"
+    "dev": "vercel dev"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.3.1"
   },
-  "engines": {
-    "node": "22.x"
-  },
-  "keywords": [
-    "discord",
-    "automod",
-    "api",
-    "vercel",
-    "bot"
-  ],
-  "author": "SeninAdin",
-  "license": "MIT"
+  "type": "module"
 }
