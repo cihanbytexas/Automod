@@ -1,12 +1,11 @@
 {
-  "name": "discord-automod-api",
+  "name": "discord-automod-edge-api",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vercel dev"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2",
-    "dotenv": "^16.3.1"
-  },
-  "type": "module"
+    "node-fetch": "^3.3.2"
+  }
 }
