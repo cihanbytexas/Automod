@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import turkceKufurler from "../data/küfürler.json" assert { type: "json" };
 
 export const config = { runtime: "edge" };
@@ -28,8 +27,7 @@ export default async function handler(req) {
     for (let rule of rules) {
       let body = { enabled: true };
 
-      // Eğer kural keyword_filter içeriyorsa küfür listemizi ekle
-      if (rule.trigger_type === 1) { // 1 = Keyword
+      if (rule.trigger_type === 1) {
         body.trigger_metadata = { keyword_filter: turkceKufurler };
       }
 
@@ -54,4 +52,4 @@ export default async function handler(req) {
       headers: { "Content-Type": "application/json" }
     });
   }
-}A
+}
