@@ -1,9 +1,23 @@
 {
-  "name": "discord-automod-edge-api",
+  "name": "discord-automod-api",
   "version": "1.0.0",
+  "description": "Discord AutoMod API for Vercel Edge Runtime",
+  "main": "api/enableAllAutomod.js",
   "type": "module",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "build": "echo 'Build completed'",
+    "deploy": "vercel --prod"
   },
-  "dependencies": {}
+  "keywords": [
+    "discord",
+    "automod",
+    "vercel",
+    "edge-runtime"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
 }
